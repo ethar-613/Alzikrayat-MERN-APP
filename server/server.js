@@ -5,7 +5,8 @@ require('dotenv').config(); //to read the variables from .env
 const express = require('express'); 
 const mongoose = require('mongoose');
 const cors = require('cors');
-const path = require('path');
+//const path = require('path');
+const authRoutes = require('./routes/authRoutes')
 
 const app = express(); //creating the web server app
 const PORT = process.env.PORT || 5000; 
@@ -25,6 +26,8 @@ app.get('/', (req, res) =>{
 app.get('/about', (req, res) =>{
     res.send("this is About page");
 }); 
+
+app.use('/api/auth', authRoutes)
 
 // connect to the database then start the server if connected successfully 
 mongoose
