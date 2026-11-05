@@ -12,6 +12,7 @@ const photoSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId ,
         ref: 'User',
         required: true,
+        index: true,
     },
     fileName: {
         type: String,
@@ -19,7 +20,7 @@ const photoSchema = new mongoose.Schema({
     },
     title:{
         type: String,
-        required: [true, 'Title is required'],
+        required: [true, 'Title is required'],      
         trim: true,
         maxlength: 200,
     },

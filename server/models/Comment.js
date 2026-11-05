@@ -11,11 +11,13 @@ const commentSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId ,
         ref: 'Photo', 
         required: true,
+        index: true,
     },
     userId: {
         type: mongoose.Schema.Types.ObjectId ,
         ref: 'User',
         required: true,
+        index: true,
     },
     comment: {
         type: String,
