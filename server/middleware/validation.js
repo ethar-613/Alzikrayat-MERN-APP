@@ -4,7 +4,7 @@
 
 const Joi = require('joi');
 
-// creating the validation schema
+// creating the validation schema for register
 const registerSchema = Joi.object({
     firstName: Joi.string().trim().max(50).required(),
     lastName: Joi.string().trim().max(50).required(),
@@ -13,6 +13,12 @@ const registerSchema = Joi.object({
     location: Joi.string().trim().allow(''),
     description: Joi.string().trim().allow('') , 
     occupation: Joi.string().trim().allow('') 
+});
+
+// creating the validation schema for login
+const loginSchema = Joi.object({
+    email: Joi.string().trim().email({tlds:{allow: false}}).required() ,
+    password: Joi.string().required() 
 });
 
 // creating middleware to check the validation of the data
@@ -39,4 +45,4 @@ const validate = (schema) => (req, res, next) => {
 };
 
 // exporting the function and schema
-module.exports = {validate, registerSchema};
+module.exports = {validate, registerSchema, loginSchema};
