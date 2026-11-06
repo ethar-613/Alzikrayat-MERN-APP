@@ -3,6 +3,7 @@
 */
 
 const Joi = require('joi');
+const fs = require('fs');
 
 // creating the validation schema for register
 const registerSchema = Joi.object({
@@ -21,6 +22,14 @@ const loginSchema = Joi.object({
     password: Joi.string().required() 
 });
 
+
+const photoSchema = Joi.object({
+    title: Joi.string().trim().max(200).required(),
+    description: Joi.string().trim().allow('') ,
+});
+
+
+
 // creating middleware to check the validation of the data
 // its the function that the requests pass on it before it reach the controller
 // put it on var so i can use it with more than one schema to use the same middleware for validate the data
@@ -35,6 +44,7 @@ const loginSchema = Joi.object({
 const validate = (schema) => (req, res, next) => {
     const {error, value} = schema.validate(req.body, {abortEarly: false});//abortEarly use to let Joi coninue checking and collect all errors
     if(error){
+        if(req.file) fs.unlink(req.file.path , ()=>{});
         return res.status(400).json({
             message: 'Validation failed',
             errors: error.details.map((d)=> d.message),
@@ -45,4 +55,4 @@ const validate = (schema) => (req, res, next) => {
 };
 
 // exporting the function and schema
-module.exports = {validate, registerSchema, loginSchema};
+module.exports = {validate, registerSchema, loginSchema , photoSchema};

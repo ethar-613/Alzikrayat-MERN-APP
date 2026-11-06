@@ -5,8 +5,11 @@ require('dotenv').config(); //to read the variables from .env
 const express = require('express'); 
 const mongoose = require('mongoose');
 const cors = require('cors');
-//const path = require('path');
+const path = require('path');
 const authRoutes = require('./routes/authRoutes')
+const photoRoutes = require('./routes/photoRoutes')
+
+
 
 const app = express(); //creating the web server app
 const PORT = process.env.PORT || 5000; 
@@ -17,7 +20,7 @@ app.use(cors({
     credentials: true
 })); //let frontend that run on port 5173 to send requests to and recive data from server that run on port 3000
 app.use(express.json()); //convert the coming json to request body
-// app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); 
+app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); 
 
 //for testing 
 app.get('/', (req, res) =>{
@@ -28,6 +31,9 @@ app.get('/about', (req, res) =>{
 }); 
 
 app.use('/api/auth', authRoutes)
+
+app.use('/api/photos', photoRoutes)
+
 
 // connect to the database then start the server if connected successfully 
 mongoose
