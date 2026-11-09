@@ -4,16 +4,16 @@
 */
 
 const express = require('express');
-const authController = require('../controllers/authController');
+const {register , login} = require('../controllers/authController');
 const {validate, registerSchema, loginSchema} = require('../middleware/validation');
 
 // creating new Router useing express
 const router = express.Router();
 // creating route that accept post requests at /register, 
 // then check the validate of the data in the request, if it valid then coninue to the register function on authController
-router.post('/register', validate(registerSchema), authController.register);
+router.post('/register', validate(registerSchema), register);
 // route for login
-router.post('/login', validate(loginSchema), authController.login);
+router.post('/login', validate(loginSchema), login);
 
 
 // export router to use it on server.js

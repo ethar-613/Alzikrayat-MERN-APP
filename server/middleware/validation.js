@@ -7,25 +7,45 @@ const fs = require('fs');
 
 // creating the validation schema for register
 const registerSchema = Joi.object({
-    firstName: Joi.string().trim().max(50).required(),
-    lastName: Joi.string().trim().max(50).required(),
-    email: Joi.string().trim().email({tlds:{allow: false}}).required() , 
-    password: Joi.string().min(6).max(100).required() , 
-    location: Joi.string().trim().allow(''),
-    description: Joi.string().trim().allow('') , 
-    occupation: Joi.string().trim().allow('') 
+    firstName: Joi.string().trim().min(2).max(50).required().messages({
+        'string.empty': 'First name is required',
+        'string.min': 'first name can not be less than 2 characters',
+        'string.max': 'first name can not be more than 50 characters',
+    }),
+    lastName: Joi.string().trim().min(2).max(50).required().messages({
+        'string.empty': 'Last name is required',
+        'string.min': 'last name can not be less than 2 characters',
+        'string.max': 'last name can not be more than 50 characters',
+    }),
+    email: Joi.string().trim().email({tlds:{allow: false}}).required().messages({
+        'string.empty': 'Email is required',
+        'string.email': 'Please enter valid email address',
+    }) , 
+    password: Joi.string().min(6).max(100).required().messages({
+        'string.empty': 'Password is required',
+        'string.min': 'Password must be at least 6 characters',
+        'string.max': 'password can not be more than 100 characters'
+    }) , 
+    location: Joi.string().trim().allow('').optional(),
+    description: Joi.string().trim().allow('').optional() , 
+    occupation: Joi.string().trim().allow('').optional() 
 });
 
 // creating the validation schema for login
 const loginSchema = Joi.object({
-    email: Joi.string().trim().email({tlds:{allow: false}}).required() ,
-    password: Joi.string().required() 
+    email: Joi.string().trim().email({tlds:{allow: false}}).required().messages({
+        'string.empty': 'Email is required',
+        'string.email': 'Please enter valid email address',
+    }) ,
+    password: Joi.string().required().messages({
+        'string.empty': 'Password is required',
+    }) 
 });
 
 
 const photoSchema = Joi.object({
     title: Joi.string().trim().max(200).required(),
-    description: Joi.string().trim().allow('') ,
+    description: Joi.string().trim().max(1000).allow('') ,
 });
 
 
@@ -45,10 +65,7 @@ const validate = (schema) => (req, res, next) => {
     const {error, value} = schema.validate(req.body, {abortEarly: false});//abortEarly use to let Joi coninue checking and collect all errors
     if(error){
         if(req.file) fs.unlink(req.file.path , ()=>{});
-        return res.status(400).json({
-            message: 'Validation failed',
-            errors: error.details.map((d)=> d.message),
-        });
+        next(error);
     }
     req.body = value; 
     next();

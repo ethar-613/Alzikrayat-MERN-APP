@@ -22,48 +22,47 @@ const toPublicUser = (user)=>({
 // if there document with that email then stop execution and send error message 
 // but if everything worked fine then sending successful response state to frontend with the general user data
 // if anything happened wrong then will catched in catch{} and display error in console and send server error message with its status
-const register = async (req, res) => {
+const register = async (req, res, next) => {
     try{
         const {firstName, lastName, email, password, location, description, occupation} = req.body;
 
         // checking if the email is registed before 
         const existingEmail = await User.findOne({email: email.toLowerCase()});
         if(existingEmail){
-            return res.status(409).json({message:'Email already used'})
+            return res.status(409).json({errors:['Email already used']})
         }
 
-        const hashedPassword = await bcrypt.hash(password, 10); //encrypt the password with 10 rounds using hashing
+        const rounds = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, rounds); //encrypt the password with 10 rounds using hashing
 
         const user = await User.create({firstName, lastName, email, password: hashedPassword, location, description, occupation});
 
-        res.status(201).json(toPublicUser(user)); 
+        res.status(201).json({message: 'User registered Successfully' }, toPublicUser(user)); 
 
     } catch(err){
-        console.error('Register error,', err.message);
-        res.status(500).json({message: 'Server Error'});
+        next(err);
     }
 };
 
 
 // function used for user login
 // checks the email and password and return error of anything wrong and send the response status if it ok or not
-const login = async(req, res)=>{
+const login = async(req, res, next)=>{
     try{
         const{email, password} = req.body;
         const user = await User.findOne({email: email.toLowerCase()});
 
         if(!user){
-            return res.status(401).json({message: 'invalid email or password'});
+            return res.status(401).json({errors: ['invalid email or password']});
         }
 
-        const isMatch = await bcrypt.compare(password, user.password);
-        if(!isMatch){
-            return res.status(401).json({message: 'invalid email or password'});
+        const comparePassword = await bcrypt.compare(password, user.password);
+        if(!comparePassword){
+            return res.status(401).json({errors: ['invalid email or password']});
         }
-        res.status(200).json(toPublicUser(user));
+        res.status(200).json({message: 'Login Successfully'}, toPublicUser(user));
     }catch(err){
-        console.error('Login error,', err.message);
-        res.status(500).json({message: 'Server Error'});
+        next(err);
     }
 }
 

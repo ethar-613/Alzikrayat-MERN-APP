@@ -11,13 +11,15 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, 'First name is required'],
         trim: true,
-        maxlength: 50
+        minlength: [2, 'first name can not be less than 2 characters'],
+        maxlength: [50, 'first name can not be more than 50 characters'],
     },
     lastName: {
         type: String,
         required: [true, 'Last name is required'],
         trim: true,
-        maxlength: 50
+        minlength: [2, 'last name can not be less than 2 characters'],
+        maxlength: [50, 'last name can not be more than 50 characters'],
     },
     email: {
         type: String,
@@ -25,11 +27,16 @@ const userSchema = new mongoose.Schema({
         unique: true,
         lowercase: true,
         trim: true,
-        match: [/^\S+@\S+\.\S+$/, 'Please enter valid email address']
+        match: [ 
+            /^[^\s@]+@[^\s@]+\.[^\s@]+$/ , 
+            'Please enter valid email address'
+        ]
     },
     password: {
         type: String,
         required: [true, 'Password is required'],
+        minlength: [6, 'Password must be at least 6 characters'],
+        maxlength: [100, 'password can not be more than 100 characters'],
     },
     location: {
         type: String,
@@ -46,7 +53,8 @@ const userSchema = new mongoose.Schema({
         trim: true,
         default: '',
     }
-});
+},{timestamps: true} // to add createdAt and updatedAt auto
+);
 
 // here turning the schema to real tool to use it to interact with the database, then make it available to the rest of project files
 module.exports = mongoose.model('User', userSchema);

@@ -5,7 +5,6 @@
 const express = require('express');
 const photoController = require('../controllers/photoController');
 const requireUser = require('../middleware/requireUser');
-const upload = require('../middleware/upload');
 const {validate, photoSchema} = require('../middleware/validation');
 const uploadPhoto = require('../middleware/upload');
 

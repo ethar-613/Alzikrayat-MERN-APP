@@ -8,6 +8,7 @@ const cors = require('cors');
 const path = require('path');
 const authRoutes = require('./routes/authRoutes')
 const photoRoutes = require('./routes/photoRoutes')
+const errorHandler = require('./middleware/errorHandler')
 
 
 
@@ -30,9 +31,11 @@ app.get('/about', (req, res) =>{
     res.send("this is About page");
 }); 
 
-app.use('/api/auth', authRoutes)
 
+app.use('/api/auth', authRoutes)
 app.use('/api/photos', photoRoutes)
+app.use(errorHandler)
+
 
 
 // connect to the database then start the server if connected successfully 
@@ -44,4 +47,5 @@ mongoose
     })
     .catch((err)=>{
         console.error('there is mongodb connection error:' , err.message); //display error message if connect with database fail
+        process.exit(1);
     }) 

@@ -10,19 +10,20 @@ const commentSchema = new mongoose.Schema({
     photoId: {
         type: mongoose.Schema.Types.ObjectId ,
         ref: 'Photo', 
-        required: true,
+        required: [true, 'comment need to belong to a photo'],
         index: true,
     },
     userId: {
         type: mongoose.Schema.Types.ObjectId ,
         ref: 'User',
-        required: true,
+        required: [true, 'comment need to belong to a user'],
         index: true,
     },
     comment: {
         type: String,
         required: [true , 'Comment words is required'],
-        trim: true
+        trim: true,
+        maxlength: [1000, 'comment can not be more than 1000 characters'],
     },
     dateTime : {
         type: Date,

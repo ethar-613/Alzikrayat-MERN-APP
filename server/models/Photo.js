@@ -11,22 +11,23 @@ const photoSchema = new mongoose.Schema({
     userID:{
         type: mongoose.Schema.Types.ObjectId ,
         ref: 'User',
-        required: true,
+        required: [true, 'photo need to belong to user'],
         index: true,
     },
     fileName: {
         type: String,
-        required: true,
+        required: [true, 'file name is required'],
     },
     title:{
         type: String,
         required: [true, 'Title is required'],      
         trim: true,
-        maxlength: 200,
+        maxlength: [200, 'photo title can not be more than 200 characters'],
     },
     description: {
         type: String,
         trim: true,
+        default: '',
     },
     dateTime: {
         type: Date,

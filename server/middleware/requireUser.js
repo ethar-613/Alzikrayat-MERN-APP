@@ -16,12 +16,12 @@ const requireUser = async(req, res, next) => {
         const userID = req.header('x-user-id');
 
         if (!userID || !mongoose.isValidObjectId(userID)){
-            return res.status(401).json({message: 'Login required to do this'});
+            return res.status(401).json({errors:[ 'Login required to do this']});
         }
         
         const user = await User.findById(userID);
         if(!user){
-            return res.status(401).json({message: 'Login required to do this'});
+            return res.status(401).json({errors: ['Invalid user']});
         }
 
         req.user = user;
@@ -29,8 +29,8 @@ const requireUser = async(req, res, next) => {
         next();
 
     } catch(err){
-        console.error('requiredUser error:' , err.message);
-        res.status(500).json({message: 'Server Error'});
+        if(err.name === 'CastError'){return res.status(401).json({errors: 'Invalid user'}); }
+        next(err);
     }
 };
 
