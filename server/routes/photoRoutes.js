@@ -11,7 +11,16 @@ const uploadPhoto = require('../middleware/upload');
 
 const router = express.Router();
 
+// rout for create/upload photo
 router.post('/', requireUser, uploadPhoto, validate(photoSchema), photoController.createPhoto);
+
+// route to get all photos uploaded
+router.get('/' ,  photoController.getAllPhotos);
+
+// route to get specifix photo uploaded
+router.get('/:id' ,  photoController.getOnePhoto);
+
+
 
 module.exports = router;
 
