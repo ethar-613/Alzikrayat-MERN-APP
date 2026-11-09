@@ -4,8 +4,6 @@
 
 const Photo = require('../models/Photo');
 const Comment = require('../models/Comment');
-const mongoose = require('mongoose');
-
 
 
 //create comment

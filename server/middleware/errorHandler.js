@@ -2,9 +2,20 @@
  * 
 */
 
+
+const notFound = (req, res)=>{
+    res.status(404).json({ message: `Route not found: ${req.method} ${req.originalUrl}. maybe check the spelling.` });
+}
+
+
 //
 const errorHandler = (err, req, res, next) => {
     console.error('Error:', err.message);
+
+    // error in json body 
+    if(err.type === 'entity.parse.failed'){
+        return res.status(400).json({ errors:['Invalid json in request body'] });
+    }
 
     // check mongoose errors
     if(err.name === 'ValidationError'){
@@ -30,8 +41,8 @@ const errorHandler = (err, req, res, next) => {
         return res.status(400).json({errors: [err.message]});
     }
 
-    // general error
+    // unhandles error
     res.status(err.status || 500).json({errors: [err.message || 'Internal Server Error']});
 }
 
-module.exports = errorHandler;
+module.exports = {errorHandler , notFound};
