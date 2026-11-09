@@ -20,7 +20,8 @@ router.get('/' ,  photoController.getAllPhotos);
 // route to get specifix photo uploaded
 router.get('/:id' ,  photoController.getOnePhoto);
 
-
+// route to delete photo uploaded
+router.delete('/:id' , requireUser ,  photoController.deletePhoto);
 
 module.exports = router;
 
