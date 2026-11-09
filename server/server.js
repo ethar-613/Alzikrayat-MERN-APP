@@ -6,9 +6,11 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
-const authRoutes = require('./routes/authRoutes')
-const photoRoutes = require('./routes/photoRoutes')
-const errorHandler = require('./middleware/errorHandler')
+const authRoutes = require('./routes/authRoutes');
+const photoRoutes = require('./routes/photoRoutes');
+const errorHandler = require('./middleware/errorHandler');
+const commentRoutes = require('./routes/commentRoutes')
+
 
 
 
@@ -34,6 +36,7 @@ app.get('/about', (req, res) =>{
 
 app.use('/api/auth', authRoutes)
 app.use('/api/photos', photoRoutes)
+app.use('/api/photos/:id/comments', commentRoutes)
 app.use(errorHandler)
 
 

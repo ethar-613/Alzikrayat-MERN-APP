@@ -42,10 +42,21 @@ const loginSchema = Joi.object({
     }) 
 });
 
-
+// creating the validation schema for photos
 const photoSchema = Joi.object({
-    title: Joi.string().trim().max(200).required(),
-    description: Joi.string().trim().max(1000).allow('') ,
+    title: Joi.string().trim().max(200).required().messages({
+        'string.empty': 'Title is required',
+        'string.max': 'photo title can not be more than 200 characters'
+    }),
+    description: Joi.string().trim().allow('').optional() ,
+});
+
+// creating the validation schema for comment
+const commentSchema = Joi.object({
+    comment: Joi.string().trim().max(1000).required().messages({
+        'string.empty': 'Comment words is required',
+        'string.max': 'comment can not be more than 1000 characters'
+    })
 });
 
 
@@ -72,4 +83,4 @@ const validate = (schema) => (req, res, next) => {
 };
 
 // exporting the function and schema
-module.exports = {validate, registerSchema, loginSchema , photoSchema};
+module.exports = {validate, registerSchema, loginSchema , photoSchema, commentSchema};
