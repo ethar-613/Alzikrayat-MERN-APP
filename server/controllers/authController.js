@@ -1,12 +1,15 @@
 /**
  * this file responisple for controlling authentication process, the Login and Register
+ * and Prepare user data that can be sent to the front end without the password
 */
 
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
 
 // this function use to convert the user data into general data that can be sent to the frontend
-// so it doesnot have password
+// need it cuz the user data contains the password, and we don’t want to send it to the frontend
+// parameter "user" is object containing the user data retrieved from the database
+// Returns object containing: user ID, first name, last name, email, location, description, and occupation. does not contain the password
 const toPublicUser = (user)=>({
     _id: user._id,
     firstName: user.firstName,
@@ -17,11 +20,17 @@ const toPublicUser = (user)=>({
     occupation: user.occupation,
 });
 
-// this function responsiple for the registeration for users
+// this function responsiple for the registeration for users [creating new account]
 // create new user after encrypting the password and checking if no user registered by this email before
 // if there document with that email then stop execution and send error message 
 // but if everything worked fine then sending successful response state to frontend with the general user data
-// if anything happened wrong then will catched in catch{} and display error in console and send server error message with its status
+// if anything happened wrong then will catched in catch and display error in console and send server error message with its status
+// parameters;  req it have the request data that came from the user
+//              res useing it to send response to the user
+//              next allow the navigate to the next middleware or controller
+// returns ; Do not return value directly, 
+//           it send an HTTP response to the user: 201 Account created successfully. 409 Email already in use. 
+//           If any other error occurs, it is passed to next(err)
 const register = async (req, res, next) => {
     try{
         const {firstName, lastName, email, password, location, description, occupation} = req.body;
@@ -45,8 +54,13 @@ const register = async (req, res, next) => {
 };
 
 
-// function used for user login
+// function used for user login by email and password verification
 // checks the email and password and return error of anything wrong and send the response status if it ok or not
+// parameters;  req it have the request data that came from the user
+//              res useing it to send response to the user
+//              next allow the navigate to the next middleware or controller
+// returns ; Do not return value directly, 
+//            200: Login successful. 401: Invalid email or password. Other errors are passed to next(err)
 const login = async(req, res, next)=>{
     try{
         const{email, password} = req.body;

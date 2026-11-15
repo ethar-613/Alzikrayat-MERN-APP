@@ -1,10 +1,10 @@
 /**
- * this file  
+ * this file responsible for specifying photo management routes
 */
 
 const express = require('express');
 const photoController = require('../controllers/photoController');
-const requireUser = require('../middleware/requireUser');
+const requireAuth = require('../middleware/auth');
 const {validate, photoSchema} = require('../middleware/validation');
 const uploadPhoto = require('../middleware/upload');
 
@@ -12,7 +12,7 @@ const uploadPhoto = require('../middleware/upload');
 const router = express.Router();
 
 // rout for create/upload photo
-router.post('/', requireUser, uploadPhoto, validate(photoSchema), photoController.createPhoto);
+router.post('/', requireAuth, uploadPhoto, validate(photoSchema), photoController.createPhoto);
 
 // route to get all photos uploaded
 router.get('/' ,  photoController.getAllPhotos);
@@ -21,7 +21,7 @@ router.get('/' ,  photoController.getAllPhotos);
 router.get('/:id' ,  photoController.getOnePhoto);
 
 // route to delete photo uploaded
-router.delete('/:id' , requireUser ,  photoController.deletePhoto);
+router.delete('/:id' , requireAuth ,  photoController.deletePhoto);
 
 module.exports = router;
 

@@ -68,15 +68,19 @@ const commentSchema = Joi.object({
 //              req it have the request data that came from the user
 //              res useing it to send response to the user
 //              next allow the navigate to the next middleware or controller
-// Returns funcion checks the req.body
+// Returns a middleware. and when this middleware is executed: 
+//                          if the validation succeeds, it calls next()
+//                          If the validation fails, it passes the error to the errorHandler.
 // if there any data was invalid then the function return error message conatin all the problems on teh request and stop the middleware
 // if no errors replace the request data with the data that Joi returned after validation so controller get the cleaned data
 // and then validate was successful then go to next step /controller
 const validate = (schema) => (req, res, next) => {
     const {error, value} = schema.validate(req.body, {abortEarly: false});//abortEarly use to let Joi coninue checking and collect all errors
     if(error){
-        if(req.file) fs.unlink(req.file.path , ()=>{});
-        next(error);
+        if(req.file){
+            fs.unlink(req.file.path , ()=>{});
+        } 
+        return next(error);
     }
     req.body = value; 
     next();

@@ -1,3 +1,7 @@
+/**
+ * This file is the starting point that starts the server and connects all parts of the project together.
+*/
+
 
 require('dotenv').config(); //to read the variables from .env
 

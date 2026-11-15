@@ -1,14 +1,23 @@
 /**
- * 
+ * this file compile list of errors that occur in the project 
+ * and send clear messages to the user instead of letting the server crash or displaying incomprehensible error messages
 */
 
-
+// this function to send response: "404 Not Found" If a user sends a request to a path that does not exist
+// parameters; req,To determine the request type and URL.
+//             res, To send the error message.
+// Returns HTTP response with a 404 status code and a message indicating that the path does not exist
 const notFound = (req, res)=>{
     res.status(404).json({ message: `Route not found: ${req.method} ${req.originalUrl}. maybe check the spelling.` });
 }
 
 
-//
+// this function used to handle different types of errors
+// parameters; err The error that occurred
+//              req Request information
+//              res Send the error message
+//              next Pass the error to another middleware, if necessary
+// Returns HTTP response with suitable status code and appropriate error message 
 const errorHandler = (err, req, res, next) => {
     console.error('Error:', err.message);
 
