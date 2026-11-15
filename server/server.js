@@ -33,8 +33,8 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.get('/', (req, res) =>{
     res.send("hiiiiii my creator");
 });
-app.get('/about', (req, res) =>{
-    res.send("this is About page");
+app.get('/api/health', (req, res) =>{
+    res.json({status: 'ok'});
 }); 
 
 
