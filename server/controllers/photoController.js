@@ -109,7 +109,7 @@ const deletePhoto = async (req, res, next)=>{
             if(err) next(err);
         });
 
-        res.status(204);
+        res.status(204).end();
     } catch(err){
         next(err);
     }

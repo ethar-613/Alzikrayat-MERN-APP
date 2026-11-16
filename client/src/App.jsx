@@ -3,7 +3,7 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import LoginRegister from './pages/LoginRegister';
 import About from './pages/about';
-import PhotoDetails from './pages/PhotoDetail';
+import PhotoDetail from './pages/PhotoDetail';
 import Gallery from './pages/Gallery';
 import './index.css'
 
@@ -18,7 +18,7 @@ function App(){
           <Route path="/" element={<Home/>} />
           <Route path="/gallery" element={<Gallery/>} />
           <Route path="/about" element={<About/>} />
-          <Route path="/photos/:id" element={<PhotoDetails/>} />
+          <Route path="/photos/:id" element={<PhotoDetail/>} />
           <Route path="/login" element={<LoginRegister/>} />
           <Route path="*" element={ <h1>Page Not Found</h1> } />
         </Routes>

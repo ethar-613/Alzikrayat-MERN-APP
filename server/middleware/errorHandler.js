@@ -29,9 +29,9 @@ const errorHandler = (err, req, res, next) => {
     // check mongoose errors
     if(err.name === 'ValidationError'){
         if (err.errors) {
-            return res.status(400).json({ error: Object.values(err.errors)[0].message });
+            return res.status(400).json({ errors: [Object.values(err.errors)[0].message] });
         }
-        return res.status(400).json({ error: err.message });
+        return res.status(400).json({ errors: [err.message] });
     }
 
     // unique duplicate error
