@@ -46,13 +46,16 @@ const register = async (req, res, next) => {
 
         const user = await User.create({firstName, lastName, email, password: hashedPassword, location, description, occupation});
 
-        res.status(201).json({message: 'User registered Successfully' }, toPublicUser(user)); 
+        res.status(201).json({
+                message: 'User registered Successfully',
+                user: toPublicUser(user),
+                });
 
     } catch(err){
         next(err);
     }
 };
-
+ 
 
 // function used for user login by email and password verification
 // checks the email and password and return error of anything wrong and send the response status if it ok or not
@@ -74,7 +77,10 @@ const login = async(req, res, next)=>{
         if(!comparePassword){
             return res.status(401).json({errors: ['invalid email or password']});
         }
-        res.status(200).json({message: 'Login Successfully'}, toPublicUser(user));
+        res.status(200).json({
+                    message: 'Login Successfully',
+                    user: toPublicUser(user),
+                    });
     }catch(err){
         next(err);
     }

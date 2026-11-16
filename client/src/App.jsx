@@ -9,13 +9,11 @@ import './index.css'
 
 
 
-
-
 function App(){
   return (
-    <>
+    <div className='Application'>
       <Navbar/>
-      <main className='mainSection'>
+      <main className='mainContents'>
         <Routes>
           <Route path="/" element={<Home/>} />
           <Route path="/gallery" element={<Gallery/>} />
@@ -25,7 +23,7 @@ function App(){
           <Route path="*" element={ <h1>Page Not Found</h1> } />
         </Routes>
       </main>
-    </>
+    </div>
   )
 
 }
