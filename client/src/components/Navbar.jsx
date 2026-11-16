@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 function Navbar(){
@@ -15,9 +15,9 @@ function Navbar(){
             <Link to="/" className="navbar-Link-brand">Alzikrayat</Link>
 
             <div className='navbar-items-Links'>
-              <Link to='/'>Home</Link>
-              <Link to='/gallery'>Gallery</Link>
-              <Link to='/about'>About</Link>
+              <NavLink to='/'>Home</NavLink>
+              <NavLink to='/gallery'>Gallery</NavLink>
+              <NavLink to='/about'>About</NavLink>
 
               {user? (
                 <>
