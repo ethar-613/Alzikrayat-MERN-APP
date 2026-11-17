@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import CommentForm from '../components/CommentForm';
+import api, { getErrorMessage } from '../api/axios';
 
 function PhotoDetail() {
   const { id } = useParams(); 
@@ -18,15 +19,13 @@ function PhotoDetail() {
     const fetchPhoto = async () => {
       try {
         const [photoRes, commentsRes] = await Promise.all([
-          fetch(`/api/photos/${id}`),
-          fetch(`/api/photos/${id}/comments`),
+          api.get(`/photos/${id}`),
+          api.get(`/photos/${id}/comments`),
         ]);
-        if (!photoRes.ok) throw new Error('Photo not found');
-        const photoData = await photoRes.json();
-        setPhoto(photoData);
-        setComments(commentsRes.ok ? await commentsRes.json() : []);
+        setPhoto(photoRes.data);
+        setComments(commentsRes.data);
       } catch (err) {
-        setError(err.message);
+        setError(err.response?.status === 404 ? 'Photo not found' : getErrorMessage(err, 'Photo not found'));
       } finally {
         setLoading(false);
       }
@@ -42,19 +41,11 @@ function PhotoDetail() {
     if (!window.confirm('Are you sure you want to delete this photo?')) return;
 
     try {
-      const res = await fetch(`/api/photos/${id}`, {
-        method: 'DELETE',
-        headers: { 'x-user-id': user._id },
-      });
-
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.errors?.[0] || 'Failed to delete');
-      }
+      await api.delete(`/photos/${id}`);
 
       navigate('/gallery'); 
     } catch (err) {
-      alert(err.message);
+      alert(getErrorMessage(err, 'Failed to delete'));
     }
   };
 

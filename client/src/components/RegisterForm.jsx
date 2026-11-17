@@ -1,5 +1,6 @@
 import { useState } from "react";
 import {useAuth} from "../context/AuthContext";
+import api, {getErrorMessage} from "../api/axios";
 
 function RegisterForm({onRegisterSuccess}){
     const [form, setForm] = useState({
@@ -24,21 +25,13 @@ function RegisterForm({onRegisterSuccess}){
         setError('');
         setLoading(true);
         try{
-            const res = await fetch('/api/auth/register', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(form),
-            });
-            const data = await res.json();
-
-            if (!res.ok) throw new Error(data.errors?.[0] || 'Register Failed');
-
-            login(data.user);
+            const res = await api.post('/auth/register', form);
+            login(res.data.user, res.data.token);
             if(onRegisterSuccess) onRegisterSuccess();
 
         } 
         catch(err){
-            setError(err.message);
+            setError(getErrorMessage(err, 'Register Failed'));
         }
         finally{
             setLoading(false);

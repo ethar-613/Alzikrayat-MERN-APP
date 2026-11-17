@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import api, { getErrorMessage } from '../api/axios';
 
 function CommentForm({ photoId, onCommentAdded }) {
   const [comment, setComment] = useState('');
@@ -15,22 +16,13 @@ function CommentForm({ photoId, onCommentAdded }) {
     setLoading(true);
 
     try {
-      const res = await fetch(`/api/photos/${photoId}/comments`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-user-id': user._id,
-        },
-        body: JSON.stringify({ comment }),
-      });
-
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.errors?.[0] || 'Failed to add comment');
+      const res = await api.post(`/photos/${photoId}/comments`, { comment });
+      const data = res.data;
 
       setComment(''); // set the comment to be empty
       onCommentAdded(data); //notify the details page of the new comment
     } catch (err) {
-      setError(err.message);
+      setError(getErrorMessage(err, 'Failed to add comment'));
     } finally {
       setLoading(false);
     }

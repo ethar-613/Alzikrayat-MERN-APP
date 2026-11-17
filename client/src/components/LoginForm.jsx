@@ -1,5 +1,6 @@
 import { useState } from "react";
 import {useAuth}  from "../context/AuthContext";
+import api, {getErrorMessage} from "../api/axios";
 
 function LoginForm({onLoginSuccess}){
     const [email, setEmail] = useState('');
@@ -13,21 +14,13 @@ function LoginForm({onLoginSuccess}){
         setError('');
         setLoading(true);
         try{
-            const res = await fetch('/api/auth/login', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({email, password}),
-            });
-            const data = await res.json();
-
-            if (!res.ok) throw new Error(data.errors?.[0] || 'Login Failed');
-
-            login(data.user);
+            const res = await api.post('/auth/login', {email, password});
+            login(res.data.user, res.data.token);
             if(onLoginSuccess) onLoginSuccess();
 
         } 
         catch(err){
-            setError(err.message);
+            setError(getErrorMessage(err, 'Login Failed'));
         }
         finally{
             setLoading(false);

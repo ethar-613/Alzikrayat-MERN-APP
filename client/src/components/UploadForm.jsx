@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useAuth } from '../context/AuthContext';
+import api, { getErrorMessage } from '../api/axios';
 
 function UploadForm({ onSuccess }) {
   const [file, setFile] = useState(null);
@@ -7,8 +7,6 @@ function UploadForm({ onSuccess }) {
   const [description, setDescription] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-
-  const { user } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,20 +25,12 @@ function UploadForm({ onSuccess }) {
     formData.append('description', description);
 
     try {
-      const res = await fetch('/api/photos', {
-        method: 'POST',
-        headers: {
-          'x-user-id': user._id, 
-        },
-        body: formData, 
-      });
-
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.errors?.[0] || 'Upload failed');
+      // the Authorization header is added automatically by the Axios interceptor
+      await api.post('/photos', formData);
 
       onSuccess(); 
     } catch (err) {
-      setError(err.message);
+      setError(getErrorMessage(err, 'Upload failed'));
     } finally {
       setLoading(false);
     }
