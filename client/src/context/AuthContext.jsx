@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 import api, { TOKEN_KEY, USER_KEY } from '../api/axios'
+import { saveLastLogin } from '../utils/lastLoginCookie'
 
 const AuthContext = createContext();
 
@@ -41,6 +42,7 @@ export function AuthProvider({children}) {
         setUser(userData);
         localStorage.setItem(USER_KEY, JSON.stringify(userData));
         localStorage.setItem(TOKEN_KEY, token);
+        saveLastLogin(userData); // remember this login in a cookie for 7 days
     };
     
     // logout clears the token and the user
