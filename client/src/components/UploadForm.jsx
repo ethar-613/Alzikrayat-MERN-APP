@@ -1,4 +1,3 @@
-// client/src/components/UploadForm.jsx
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 
@@ -21,6 +20,7 @@ function UploadForm({ onSuccess }) {
     setError('');
     setLoading(true);
 
+
     const formData = new FormData();
     formData.append('photo', file);
     formData.append('title', title);
@@ -32,7 +32,7 @@ function UploadForm({ onSuccess }) {
         headers: {
           'x-user-id': user._id, 
         },
-        body: formData,
+        body: formData, 
       });
 
       const data = await res.json();
