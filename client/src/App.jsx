@@ -8,7 +8,7 @@ import About from './pages/About';
 import PhotoDetail from './pages/PhotoDetail';
 import Gallery from './pages/Gallery';
 import Upload from './pages/Upload';
-import NotFound from './pages/notFound';
+import NotFound from './pages/NotFound';
 import './index.css';
 
 function App() {
