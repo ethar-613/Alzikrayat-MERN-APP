@@ -4,6 +4,7 @@
 */
 
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
 // this function use to convert the user data into general data that can be sent to the frontend
@@ -19,6 +20,14 @@ const toPublicUser = (user)=>({
     description: user.description,
     occupation: user.occupation,
 });
+
+// this function creates the JWT for a user after register or login
+// the payload contains only the user id (never put the password inside the token)
+// the token is signed with JWT_SECRET from .env and expires after JWT_EXPIRES_IN (default 1 day)
+// parameter "user" is the user document from the database
+// Returns the signed token string
+const signToken = (user) =>
+    jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN || '1d' });
 
 // this function responsiple for the registeration for users [creating new account]
 // create new user after encrypting the password and checking if no user registered by this email before
@@ -48,6 +57,7 @@ const register = async (req, res, next) => {
 
         res.status(201).json({
                 message: 'User registered Successfully',
+                token: signToken(user),
                 user: toPublicUser(user),
                 });
 
@@ -79,6 +89,7 @@ const login = async(req, res, next)=>{
         }
         res.status(200).json({
                     message: 'Login Successfully',
+                    token: signToken(user),
                     user: toPublicUser(user),
                     });
     }catch(err){
@@ -90,4 +101,10 @@ const login = async(req, res, next)=>{
 
 
 // export functions to use it outside this file
-module.exports = {register, toPublicUser, login};
+// function that returns the current logged in user, the route is protected by requireAuth
+// the client uses it when the app starts to check that the stored token is still valid
+const getMe = (req, res) => {
+    res.status(200).json({ user: toPublicUser(req.user) });
+};
+
+module.exports = {register, toPublicUser, login, getMe};

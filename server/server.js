@@ -18,6 +18,12 @@ const commentRoutes = require('./routes/commentRoutes')
 
 
 
+// the JWT secret is required to sign and verify tokens, so stop early if it is missing
+if (!process.env.JWT_SECRET) {
+    console.error('JWT_SECRET is missing in server/.env');
+    process.exit(1);
+}
+
 const app = express(); //creating the web server app
 const PORT = process.env.PORT || 5000; 
 
