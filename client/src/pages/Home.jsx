@@ -15,7 +15,7 @@ function Home(){
                 <div className="hero-actions">
                     <Link to="/gallery" className="btn-primary">Explore the Gallery</Link>
                     {!user && (
-                        <Link to="/login" className="btn-secondary">Join Alzikrayat</Link>
+                        <Link to="/register" className="btn-secondary">Join Alzikrayat</Link>
                     )}
                 </div>
             </section>

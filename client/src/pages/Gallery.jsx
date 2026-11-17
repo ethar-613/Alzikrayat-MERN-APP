@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import UploadForm from "../components/UploadForm";
+import PhotoCard from "../components/PhotoCard";
 
 function Gallery(){
     const [photos, setPhotos] = useState([]);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(true);
     const [viewMode, setViewMode] = useState('grid');
-    const [showUpload , setShowUpload] = useState(false);
 
     const {user} = useAuth();
 
@@ -32,12 +31,6 @@ function Gallery(){
         fetchPhotos();
     }, []);
 
-    // function called after the uploading success
-    const handleUploadSuccess = ()=>{
-        setShowUpload(false);
-        fetchPhotos(); //refetching the photos so the new photo show
-    };
-
     if(loading) return <div className="status-msg">Loading photos...</div>;
     if(error) return <div className="status-error-msg">{error}</div>;
 
@@ -52,19 +45,12 @@ function Gallery(){
                         <button className={`btn-toggle ${viewMode === 'list'? 'active':''}`} onClick={()=>setViewMode('list')}>List</button>
                     </div>
 
-                    {/* uploading photo button */}
+                    {/* link to the upload page (only for logged in users) */}
                     {user && (
-                        <button className="btn-primary" onClick={()=> setShowUpload(!showUpload)}>
-                            {showUpload ? 'Cancel Upload' : '+ Upload photo'}
-                        </button>
+                        <Link to="/upload" className="btn-primary">+ Upload photo</Link>
                     )}
                 </div>
             </div>
-
-            {/* uploading photo form */}
-            {showUpload && user && (
-                <UploadForm onSuccess={handleUploadSuccess} />
-            )}
 
             {/* displaing images */}
             {photos.length===0 ? (
@@ -72,13 +58,7 @@ function Gallery(){
             ):(
                 <div className={viewMode === 'grid' ? 'photos-grid' : 'photos-list'}>
                     {photos.map((photo)=>(
-                        <Link to={`/photos/${photo._id}`} key={photo._id} className="photo-card" >
-                            <img src={`/uploads/${photo.fileName}`} alt={photo.title} className="photo-img"  loading="lazy" />
-                            <div className="photo-info">
-                                <h3>{photo.title}</h3>
-                                <p className="photo-auther">By {photo.userID?.firstName} {photo.userID?.lastName}</p>
-                            </div>
-                        </Link>
+                        <PhotoCard key={photo._id} photo={photo} />
                     ))}
                 </div>
             )}
