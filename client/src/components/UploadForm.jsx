@@ -1,6 +1,14 @@
+/**
+ * upload form component
+ * lets a logged in user choose an image, write its title and description, and send them to the server
+ */
+
 import { useState } from 'react';
 import api, { getErrorMessage } from '../api/axios';
 
+// form to upload a new photo with its title and description
+// parameters; onSuccess, function that runs after the photo is uploaded successfully
+// Returns the form JSX
 function UploadForm({ onSuccess }) {
   const [file, setFile] = useState(null);
   const [title, setTitle] = useState('');
@@ -8,6 +16,9 @@ function UploadForm({ onSuccess }) {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
+  // runs when the form is submitted, sends the image and its data to POST /api/photos as FormData
+  // parameters; e, the submit event (used to stop the page reload)
+  // Returns nothing, on success it calls onSuccess(), on failure it shows the error message
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!file) {

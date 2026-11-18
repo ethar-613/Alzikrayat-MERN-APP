@@ -1,8 +1,16 @@
+/**
+ * gallery page
+ * loads all the photos from the server and shows them in a grid or list view
+ */
+
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import PhotoCard from "../components/PhotoCard";
 
+// the gallery page, loads all photos from the API and shows them as a grid or a list
+// parameters; none
+// Returns the gallery page JSX (or a loading / error message)
 function Gallery(){
     const [photos, setPhotos] = useState([]);
     const [error, setError] = useState('');
@@ -11,6 +19,9 @@ function Gallery(){
 
     const {user} = useAuth();
 
+    // gets all the photos from GET /api/photos and saves them in the state
+    // parameters; none
+    // Returns nothing, if it fails it saves the error message in the state
     const fetchPhotos = async () => {
         try{
             setLoading(true);

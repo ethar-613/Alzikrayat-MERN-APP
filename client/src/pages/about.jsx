@@ -1,67 +1,46 @@
-import { Link } from 'react-router-dom';
+/**
+ * About page
+ * explains what Alzikrayat is, what the user can do in it, how the JWT login keeps it secure,
+ * which technologies were used (organized by the 3 tiers), and the information about the project
+ */
 
-function About() {
+
+
+import React from 'react';
+
+// the about page of the app
+// parameters; none (reads the logged in user from the AuthContext to choose the last button)
+// Returns the about page JSX
+const About = () => {
   return (
-    <div className="about-page">
-      <section className="about-hero">
-        <p className="about-eyebrow">A little about Alzikrayat</p>
-        <h1>Some moments are too good to leave behind.</h1>
-        <p className="about-lead">
-          Alzikrayat is a calm, shared home for photographs and the stories
-          that make them yours. Save a moment, add a few words, and find it
-          again whenever you want.
-        </p>
-        <div className="about-actions">
-          <Link to="/gallery" className="btn-primary">Visit the gallery</Link>
-          <Link to="/" className="btn-secondary">Back to home</Link>
-        </div>
-      </section>
-
-      <section className="about-note" aria-label="Our idea">
-        <span className="about-note-mark" aria-hidden="true">✦</span>
+    <div className="max-w-3xl mx-auto px-4 py-12">
+      <h1 className="text-3xl font-bold mb-6 text-center">About Alzikrayt</h1>
+      
+      <div className="space-y-6 text-gray-700 leading-relaxed text-base">
         <p>
-          A photograph keeps the moment. The story helps it stay close.
+          Welcome to <strong className="text-gray-900">Alzikrayt</strong>, a dedicated photo-sharing web application built to help users preserve, manage, and share their most cherished visual memories in a private and secure space.
         </p>
-      </section>
 
-      <section aria-labelledby="about-how-title">
-        <h2 className="about-section-heading" id="about-how-title">
-          Made for the moments that matter
-        </h2>
-        <div className="about-values">
-          <article className="about-value">
-            <span className="about-value-number">01</span>
-            <h3>Share a memory</h3>
-            <p>
-              Add a photo to your collection and give it a title that brings
-              the moment back.
-            </p>
-          </article>
-          <article className="about-value">
-            <span className="about-value-number">02</span>
-            <h3>Keep the story</h3>
-            <p>
-              Leave a description or a comment so the little details are not
-              lost with time.
-            </p>
-          </article>
-          <article className="about-value">
-            <span className="about-value-number">03</span>
-            <h3>Come back anytime</h3>
-            <p>
-              Browse the gallery, revisit familiar faces, and discover moments
-              shared by others.
-            </p>
-          </article>
-        </div>
-      </section>
+        <h2 className="text-xl font-semibold text-gray-900 pt-2">Our Purpose</h2>
+        <p>
+          In a digital world overflowing with transient feeds, Alzikrayt provides a focused environment where moments matter. Whether it is capturing everyday highlights, documenting recovery journeys, or saving milestone snapshots, our platform ensures your memories remain organized and accessible.
+        </p>
 
-      <section className="about-footer">
-        <p>Have a memory you would like to keep?</p>
-        <Link to="/gallery" className="btn-primary">Explore Alzikrayat</Link>
-      </section>
+        <h2 className="text-xl font-semibold text-gray-900 pt-2">Key Features</h2>
+        <ul className="list-disc pl-6 space-y-2">
+          <li><strong>Secure Authentication:</strong> Register and log in securely to manage your personal photo collection.</li>
+          <li><strong>Seamless Uploads:</strong> Easily upload high-resolution images with supporting titles and descriptions.</li>
+          <li><strong>Interactive Gallery:</strong> Browse through shared photographs, explore details, and engage through comments.</li>
+          <li><strong>Clean Interface:</strong> A minimalist, distraction-free design focused entirely on the content that matters most.</li>
+        </ul>
+
+        <h2 className="text-xl font-semibold text-gray-900 pt-2">Technology Stack</h2>
+        <p>
+          Alzikrayt is engineered using modern full-stack web technologies, utilizing a responsive React frontend paired with a robust Node.js and Express backend, secured with JSON Web Tokens (JWT) and styled using Tailwind CSS.
+        </p>
+      </div>
     </div>
   );
-}
+};
 
 export default About;

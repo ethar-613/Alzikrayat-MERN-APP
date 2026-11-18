@@ -1,9 +1,17 @@
+/**
+ * photo details page
+ * shows one photo with its data and comments, lets the owner delete it, and lets logged in users comment
+ */
+
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import CommentForm from '../components/CommentForm';
 import api, { getErrorMessage } from '../api/axios';
 
+// the details page of one photo: the big image, its data, the delete button (owner only) and the comments
+// parameters; none (the photo id comes from the url using useParams)
+// Returns the photo details page JSX (or a loading / error message)
 function PhotoDetail() {
   const { id } = useParams(); 
   const navigate = useNavigate();
@@ -16,6 +24,9 @@ function PhotoDetail() {
 
   useEffect(() => {
 
+    // gets the photo and its comments from the API at the same time
+    // parameters; none
+    // Returns nothing, it saves the data in the state or the error message if it fails
     const fetchPhoto = async () => {
       try {
         const [photoRes, commentsRes] = await Promise.all([
@@ -33,10 +44,16 @@ function PhotoDetail() {
     fetchPhoto();
   }, [id]);
 
+  // adds the new comment to the list so it appears without reloading the page
+  // parameters; newComment, the comment object returned by the server
+  // Returns nothing
   const handleCommentAdded = (newComment) => {
     setComments([...comments, newComment]);
   };
 
+  // deletes the photo after the user confirms (the server checks that the user is the owner)
+  // parameters; none
+  // Returns nothing, on success it goes back to the gallery, on failure it shows an alert with the error
   const handleDelete = async () => {
     if (!window.confirm('Are you sure you want to delete this photo?')) return;
 

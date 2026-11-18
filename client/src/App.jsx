@@ -1,3 +1,8 @@
+/**
+ * main component of the app
+ * it shows the Navbar and defines all the routes (public pages, guest-only pages, and protected pages)
+ */
+
 import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -8,9 +13,12 @@ import About from './pages/About';
 import PhotoDetail from './pages/PhotoDetail';
 import Gallery from './pages/Gallery';
 import Upload from './pages/Upload';
-import NotFound from './pages/notFound';
+import NotFound from './pages/NotFound';
 import './index.css';
 
+// main component of the app, it defines the Navbar and all the page routes
+// parameters; none
+// Returns the layout (Navbar + the page that matches the current url)
 function App() {
   return (
     <div className='Application'>

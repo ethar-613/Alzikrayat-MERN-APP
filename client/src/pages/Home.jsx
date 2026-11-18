@@ -1,6 +1,14 @@
+/**
+ * home page
+ * the landing page with a welcome message and links to the gallery and register
+ */
+
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
+// the landing page with the welcome text and links, the Join button is shown only to visitors
+// parameters; none
+// Returns the home page JSX
 function Home(){
     const {user} = useAuth();
 

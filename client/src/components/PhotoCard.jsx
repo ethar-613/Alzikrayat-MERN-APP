@@ -1,6 +1,13 @@
+/**
+ * photo card component
+ * one photo in the gallery (image, title, author), clicking it opens the photo details page
+ */
+
 import { Link } from 'react-router-dom';
 
 // one photo in the gallery (works for both grid and list view)
+// parameters; photo, the photo object from the API (_id, fileName, title, userID)
+// Returns a card that links to the photo details page
 function PhotoCard({ photo }) {
   return (
     <Link to={`/photos/${photo._id}`} className="photo-card">

@@ -20,6 +20,8 @@ const storage = multer.diskStorage({
 });
 
 // to ensure to save only photos
+// parameters; _req the request (not used), file the uploaded file info (name and mime type), callback to accept or reject the file
+// Returns nothing, it calls callback(null, true) for allowed images or callback(error) for other file types
 const fileFilter = (_req, file, callback)=>{
     const allowedTypes = /jpeg|jpg|png|gif|webp/ ;
     const extValid = allowedTypes.test(path.extname(file.originalname).toLowerCase());

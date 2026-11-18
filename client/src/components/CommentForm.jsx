@@ -1,13 +1,25 @@
+/**
+ * comment form component
+ * lets a logged in user write a comment on a photo, visitors see a message asking them to login
+ */
+
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import api, { getErrorMessage } from '../api/axios';
 
+// form to add a comment to a photo, logged out visitors see a message to login instead
+// parameters; photoId, the id of the photo that will receive the comment
+//             onCommentAdded, function that gets the new comment so the page can show it immediately
+// Returns the form JSX or the login message
 function CommentForm({ photoId, onCommentAdded }) {
   const [comment, setComment] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
 
+  // runs when the form is submitted, calls POST /api/photos/:id/comments
+  // parameters; e, the submit event (used to stop the page reload)
+  // Returns nothing, on success it clears the textarea and calls onCommentAdded(newComment)
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!comment.trim()) return;

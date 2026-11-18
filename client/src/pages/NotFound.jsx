@@ -1,5 +1,13 @@
+/**
+ * not found page
+ * shown when the url does not match any route (404)
+ */
+
 import { Link } from 'react-router-dom';
 
+// page shown when the url does not match any route (404)
+// parameters; none
+// Returns the 404 page JSX with a link to the home page
 function NotFound() {
   return (
     <div className="notfound-page">

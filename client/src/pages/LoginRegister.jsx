@@ -1,8 +1,15 @@
+/**
+ * login and register page
+ * one page used for both /login and /register, it shows the right form depending on the url
+ */
+
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import LoginForm from '../components/LoginForm';
 import RegisterForm from '../components/RegisterForm';
 
 // This page is used for both /login and /register
+// parameters; none
+// Returns the card that shows the login form or the register form depending on the url
 function LoginRegister() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -10,6 +17,9 @@ function LoginRegister() {
   const isLogin = location.pathname !== '/register';
 
   // after success go to the home page
+  // runs after a successful login or register, sends the user to the home page
+  // parameters; none
+  // Returns nothing
   const handleSuccess = () => {
     navigate('/');
   };
