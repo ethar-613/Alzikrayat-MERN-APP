@@ -9,7 +9,7 @@
 
 ## Description
 
-Alzikrayat is a full-stack photo sharing application. Users can register and log in, upload photos, browse the gallery, open a photo to see its details, comment on photos, and delete their own photos.
+Alzikrayat is a full-stack photo sharing application. Users can register and log in, upload photos, browse the gallery, open a photo to see its details, comment on photos, and delete their own photos. also they can see live statistics at home page for the photo, comments, users this website have for now.
 In this version the basic login from Project 3 was replaced with **stateless JWT authentication**. The server gives the user a signed token after login/register, and the client sends this token with every request.
 
 ## Technologies
