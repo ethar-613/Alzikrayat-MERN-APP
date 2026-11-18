@@ -19,6 +19,7 @@ function PhotoCard({ photo }) {
       />
       <div className="photo-info">
         <h3>{photo.title}</h3>
+        <p>{photo.description}</p>
         <p className="photo-auther">By {photo.userID?.firstName} {photo.userID?.lastName}</p>
       </div>
     </Link>
