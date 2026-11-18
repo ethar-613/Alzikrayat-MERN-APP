@@ -11,7 +11,6 @@ const SEVEN_DAYS_IN_SECONDS = 7 * 24 * 60 * 60;
 export function saveLastLogin(user) {
   const info = {
     firstName: user.firstName,
-    email: user.email,
     time: new Date().toISOString(),
   };
   const value = encodeURIComponent(JSON.stringify(info));
