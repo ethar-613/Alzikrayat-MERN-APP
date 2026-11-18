@@ -48,7 +48,7 @@ function LoginForm({onLoginSuccess}){
 
             {lastLogin && (
                 <p className="last-login">
-                    Last login from this browser: <strong>{lastLogin.firstName}</strong> ({lastLogin.email})
+                    Last login from this browser: <strong>{lastLogin.firstName}</strong>
                     <br />
                     {new Date(lastLogin.time).toLocaleString()}
                 </p>

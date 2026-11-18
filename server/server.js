@@ -35,15 +35,8 @@ app.use(cors({
 app.use(express.json()); //convert the coming json to request body
 app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); 
 
-//for testing 
-app.get('/', (req, res) =>{
-    res.send("hiiiiii my creator");
-});
-app.get('/api/health', (req, res) =>{
-    res.json({status: 'ok'});
-}); 
-
-
+// routes config
+app.use('/api/stats', require('./routes/statsRoutes'));
 app.use('/api/auth', authRoutes);
 app.use('/api/photos', photoRoutes);
 app.use('/api/photos/:id/comments', commentRoutes);

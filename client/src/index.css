@@ -247,6 +247,37 @@ button:disabled {
   margin-top: 28px;
 }
 
+/*  Stats Section  */
+.stats-section {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+.stat-card {
+  background: #fff;
+  padding:5px;
+  border-radius: 12px;
+  text-align: center;
+  border-bottom: 2px solid #f0f0ff; 
+  border-top: 2px solid #f0f0ff; 
+}
+
+.stat-card h2 {
+  font-size: 14px;
+  color: #1f2937;
+  margin-bottom: 5px;
+}
+
+.stat-card p {
+  font-size: 12px;
+  color: #6b7280;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
 /*  Gallery  */
 .galler-header {
   display: flex;
