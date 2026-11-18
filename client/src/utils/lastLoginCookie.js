@@ -1,6 +1,6 @@
 /**
  * this file saves the "last login" information of this browser in a cookie for 7 days
- * the cookie contains only the first name, the email and the time (never the password or the token)
+ * the cookie contains only the first name and the time (never the password or the token)
  */
 
 const COOKIE_NAME = 'alzikrayat_last_login';
@@ -18,7 +18,7 @@ export function saveLastLogin(user) {
 }
 
 // read the last login from the cookie
-// Returns object {firstName, email, time} or null if there is no cookie (or it expired)
+// Returns object {firstName, time} or null if there is no cookie (or it expired)
 export function getLastLogin() {
   const match = document.cookie
     .split('; ')
